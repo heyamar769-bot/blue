@@ -1,0 +1,62 @@
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const celebration = document.getElementById("celebration");
+
+  // Function to move NO button randomly
+  function moveNoButton() {
+    const padding = 80;
+    const x = Math.random() * (window.innerWidth - padding);
+    const y = Math.random() * (window.innerHeight - padding);
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+  }
+
+  // Detect mouse getting close to NO button
+  document.addEventListener("mousemove", (e) => {
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const distanceX = Math.abs(e.clientX - (btnRect.left + btnRect.width / 2));
+    const distanceY = Math.abs(e.clientY - (btnRect.top + btnRect.height / 2));
+
+    // If mouse is close, run away
+    if (distanceX < 120 && distanceY < 80) {
+      moveNoButton();
+    }
+  });
+
+  // Extra safety: move if somehow hovered
+  noBtn.addEventListener("mouseenter", moveNoButton);
+
+  // YES click celebration
+  yesBtn.addEventListener("click", () => {
+    celebration.style.display = "flex";
+    createConfetti();
+  });
+
+  // Floating hearts
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+  }, 300);
+
+  // Confetti
+  function createConfetti() {
+    for (let i = 0; i < 150; i++) {
+      const confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.backgroundColor =
+        ["#ff3366", "#fff", "#ffd1dc"][Math.floor(Math.random() * 3)];
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 3000);
+    }
+  }
+</script>
